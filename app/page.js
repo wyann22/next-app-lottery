@@ -168,8 +168,8 @@ export default function Home() {
               2. De-Raffle will pick a random player as Winner every 30 seconds.
             </span>
             <span>
-              3. All the money in Raffle Pool is sent to Winner's wallet after
-              each Round and next Round gets started.
+              3. All the money in Raffle Pool is sent to Winner&aposs wallet
+              after each Round and next Round gets started.{""}
             </span>
           </div>
         </div>
