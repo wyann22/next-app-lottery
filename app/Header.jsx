@@ -1,13 +1,37 @@
 "use client";
 
-import { createThirdwebClient } from "thirdweb";
+import { createThirdwebClient, getContract } from "thirdweb";
 import { createWallet, injectedProvider } from "thirdweb/wallets";
 import { useConnect, useActiveAccount } from "thirdweb/react";
 import { useEffect, useState } from "react";
+import { sepolia } from "thirdweb/chains";
+import { getRpcClient, eth_getBalance } from "thirdweb/rpc";
+
 const client = createThirdwebClient({
   clientId: "19384c95c09239d3ea2a87a48b6bdcc5",
 });
-export default function Header({ accountdd }) {
+
+export const lotteryContract = getContract({
+  // the client you have created via `createThirdwebClient()`
+  client,
+  // the chain the contract is deployed on
+  chain: sepolia,
+  // the contract's address
+  address: process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDR,
+  // OPTIONAL: the contract's abi
+});
+export const getLotteryBalance = async () => {
+  try {
+    const rpcRequest = getRpcClient({ client: client, chain: sepolia });
+    const balance = await eth_getBalance(rpcRequest, {
+      address: lotteryContract.address,
+    });
+    return balance;
+  } catch (error) {
+    throw error;
+  }
+};
+export default function Header() {
   const account = useActiveAccount();
   const { connect, isConnecting, error } = useConnect();
   const connectWallet = async () => {
